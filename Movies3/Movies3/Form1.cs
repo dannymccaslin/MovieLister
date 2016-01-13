@@ -158,22 +158,34 @@ namespace Movies3
 
         private void exitToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (dt.Rows.Count != 0 )
+            this.Close();
+        }
+
+        private void Form1_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
+        {
+            e.Cancel = true;
+            if (dt.Rows.Count != 0)
             {
                 if (MessageBox.Show("Would you like to save before closing?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     saveFileDialog1.ShowDialog();
-                    this.Close();
+                    e.Cancel = false;
                 }
                 else
                 {
-                    this.Close();
+                    e.Cancel = false;
                 }
             }
             else
             {
-                this.Close();
+                e.Cancel = false;
             }
+
 
         }
     }

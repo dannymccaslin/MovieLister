@@ -22,3 +22,9 @@ C:\Users\dmccaslin.NRADC0\OneDrive\Visual Studio\Projects\Movies3\Movies3\obj\De
 C:\Users\dmccaslin.NRADC0\OneDrive\Visual Studio\Projects\MovieLister\Movies3\Movies3\bin\Debug\Movies3.exe.config
 C:\Users\dmccaslin.NRADC0\OneDrive\Visual Studio\Projects\MovieLister\Movies3\Movies3\obj\Debug\Movies3.exe
 C:\Users\dmccaslin.NRADC0\OneDrive\Visual Studio\Projects\MovieLister\Movies3\Movies3\obj\Debug\Movies3.pdb
+C:\Users\dmccaslin.NRADC0\OneDrive\Visual Studio\Projects\MovieLister\Movies3\Movies3\bin\Debug\Movies3.exe
+C:\Users\dmccaslin.NRADC0\OneDrive\Visual Studio\Projects\MovieLister\Movies3\Movies3\bin\Debug\Movies3.pdb
+C:\Users\dmccaslin.NRADC0\OneDrive\Visual Studio\Projects\MovieLister\Movies3\Movies3\obj\Debug\Movies3.csprojResolveAssemblyReference.cache
+C:\Users\dmccaslin.NRADC0\OneDrive\Visual Studio\Projects\MovieLister\Movies3\Movies3\obj\Debug\Movies3.Form1.resources
+C:\Users\dmccaslin.NRADC0\OneDrive\Visual Studio\Projects\MovieLister\Movies3\Movies3\obj\Debug\Movies3.Properties.Resources.resources
+C:\Users\dmccaslin.NRADC0\OneDrive\Visual Studio\Projects\MovieLister\Movies3\Movies3\obj\Debug\Movies3.csproj.GenerateResource.Cache

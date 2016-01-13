@@ -32,7 +32,7 @@ namespace Movies3
             _names.Add("Date");
             _names.Add("Movie Title");
 
-           
+
 
             for (int i = 0; i < this._names.Count; i++)
             {
@@ -50,7 +50,7 @@ namespace Movies3
             openFileDialog1.Filter = "xml files (*.xml)|*.xml";
         }
 
-  
+
         public void submitButton_Click(object sender, EventArgs e)
         {
 
@@ -99,21 +99,21 @@ namespace Movies3
            */
 
             for (int i = 0; i < dt.Rows.Count; i++)
-             {
+            {
 
                 if (Convert.ToString(dt.Rows[i]["Movie Title"]) == movieSearch.Text)
-                 {
-                     
-                     dataGridView1.Rows[i].Selected = true;
-                 } 
+                {
+
+                    dataGridView1.Rows[i].Selected = true;
+                }
 
 
-             }
+            }
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            if (MessageBox.Show("Are You Sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question)== DialogResult.Yes)
+            if (MessageBox.Show("Are You Sure?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
             {
                 // Do stuff if yes
                 //Get the selected row by looping through all of the rows and finding one that has been selected
@@ -123,7 +123,7 @@ namespace Movies3
                     {
                         deleteRow(i);
                     }
-                    
+
                 }
             }
             else
@@ -144,6 +144,37 @@ namespace Movies3
             string name = openFileDialog1.FileName;
 
             ds.ReadXml(name);
+        }
+
+        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            saveFileDialog1.ShowDialog();
+        }
+
+        private void openToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+        }
+
+        private void exitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (dt.Rows.Count != 0 )
+            {
+                if (MessageBox.Show("Would you like to save before closing?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
+                {
+                    saveFileDialog1.ShowDialog();
+                    this.Close();
+                }
+                else
+                {
+                    this.Close();
+                }
+            }
+            else
+            {
+                this.Close();
+            }
+
         }
     }
 }

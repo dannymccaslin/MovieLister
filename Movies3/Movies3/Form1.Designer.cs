@@ -28,9 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.submitButton = new System.Windows.Forms.Button();
-            this.movieTitle = new System.Windows.Forms.TextBox();
-            this.movieDate = new System.Windows.Forms.DateTimePicker();
+            this.MovieTableBindingSource = new System.Windows.Forms.BindingSource(this.components);
+            this.moviesDataSet = new Movies3.MoviesDataSet();
             this.dataGridView1 = new System.Windows.Forms.DataGridView();
             this.saveButton = new System.Windows.Forms.Button();
             this.loadButton = new System.Windows.Forms.Button();
@@ -49,8 +50,17 @@
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.editButton = new System.Windows.Forms.Button();
+            this.MovieTableTableAdapter = new Movies3.MoviesDataSetTableAdapters.MovieTableTableAdapter();
+            this.tableAdapterManager = new Movies3.MoviesDataSetTableAdapters.TableAdapterManager();
+            this.dbBindSource = new System.Windows.Forms.BindingSource(this.components);
+            this.movieTitle = new System.Windows.Forms.TextBox();
+            this.movieDate = new System.Windows.Forms.DateTimePicker();
+            ((System.ComponentModel.ISupportInitialize)(this.MovieTableBindingSource)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this.moviesDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
             this.menuStrip1.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dbBindSource)).BeginInit();
             this.SuspendLayout();
             // 
             // submitButton
@@ -63,20 +73,15 @@
             this.submitButton.UseVisualStyleBackColor = true;
             this.submitButton.Click += new System.EventHandler(this.submitButton_Click);
             // 
-            // movieTitle
+            // MovieTableBindingSource
             // 
-            this.movieTitle.Location = new System.Drawing.Point(22, 115);
-            this.movieTitle.Name = "movieTitle";
-            this.movieTitle.Size = new System.Drawing.Size(200, 20);
-            this.movieTitle.TabIndex = 1;
+            this.MovieTableBindingSource.DataMember = "MovieTable";
+            this.MovieTableBindingSource.DataSource = this.moviesDataSet;
             // 
-            // movieDate
+            // moviesDataSet
             // 
-            this.movieDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.movieDate.Location = new System.Drawing.Point(22, 59);
-            this.movieDate.Name = "movieDate";
-            this.movieDate.Size = new System.Drawing.Size(200, 20);
-            this.movieDate.TabIndex = 2;
+            this.moviesDataSet.DataSetName = "MoviesDataSet";
+            this.moviesDataSet.SchemaSerializationMode = System.Data.SchemaSerializationMode.IncludeSchema;
             // 
             // dataGridView1
             // 
@@ -98,7 +103,7 @@
             // 
             // loadButton
             // 
-            this.loadButton.Location = new System.Drawing.Point(316, 419);
+            this.loadButton.Location = new System.Drawing.Point(424, 390);
             this.loadButton.Name = "loadButton";
             this.loadButton.Size = new System.Drawing.Size(75, 23);
             this.loadButton.TabIndex = 5;
@@ -229,11 +234,49 @@
             this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
             this.aboutToolStripMenuItem.Text = "About";
             // 
+            // editButton
+            // 
+            this.editButton.Location = new System.Drawing.Point(536, 390);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(75, 23);
+            this.editButton.TabIndex = 13;
+            this.editButton.Text = "Edit";
+            this.editButton.UseVisualStyleBackColor = true;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
+            // 
+            // MovieTableTableAdapter
+            // 
+            this.MovieTableTableAdapter.ClearBeforeFill = true;
+            // 
+            // tableAdapterManager
+            // 
+            this.tableAdapterManager.BackupDataSetBeforeUpdate = false;
+            this.tableAdapterManager.MovieTableTableAdapter = this.MovieTableTableAdapter;
+            this.tableAdapterManager.UpdateOrder = Movies3.MoviesDataSetTableAdapters.TableAdapterManager.UpdateOrderOption.InsertUpdateDelete;
+            // 
+            // movieTitle
+            // 
+            this.movieTitle.Location = new System.Drawing.Point(22, 115);
+            this.movieTitle.Name = "movieTitle";
+            this.movieTitle.Size = new System.Drawing.Size(234, 20);
+            this.movieTitle.TabIndex = 14;
+            // 
+            // movieDate
+            // 
+            this.movieDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
+            this.movieDate.Location = new System.Drawing.Point(25, 61);
+            this.movieDate.Name = "movieDate";
+            this.movieDate.Size = new System.Drawing.Size(231, 20);
+            this.movieDate.TabIndex = 15;
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(728, 509);
+            this.Controls.Add(this.movieDate);
+            this.Controls.Add(this.movieTitle);
+            this.Controls.Add(this.editButton);
             this.Controls.Add(this.deleteButton);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.label2);
@@ -243,18 +286,18 @@
             this.Controls.Add(this.loadButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.dataGridView1);
-            this.Controls.Add(this.movieDate);
-            this.Controls.Add(this.movieTitle);
             this.Controls.Add(this.submitButton);
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
             this.Text = "Movie Lister";
-            this.Load += new System.EventHandler(Form1_Load);
-            this.FormClosing += this.Form1_FormClosing;
-            ((System.ComponentModel.ISupportInitialize)(dataGridView1)).EndInit();
+            this.Load += new System.EventHandler(this.Form1_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.MovieTableBindingSource)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.moviesDataSet)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).EndInit();
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dbBindSource)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -263,8 +306,6 @@
         #endregion
 
         private System.Windows.Forms.Button submitButton;
-        private System.Windows.Forms.TextBox movieTitle;
-        private System.Windows.Forms.DateTimePicker movieDate;
         private System.Windows.Forms.DataGridView dataGridView1;
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button loadButton;
@@ -283,6 +324,14 @@
         private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private System.Windows.Forms.Button editButton;
+        private MoviesDataSet moviesDataSet;
+        private System.Windows.Forms.BindingSource MovieTableBindingSource;
+        private MoviesDataSetTableAdapters.MovieTableTableAdapter MovieTableTableAdapter;
+        private MoviesDataSetTableAdapters.TableAdapterManager tableAdapterManager;
+        private System.Windows.Forms.BindingSource dbBindSource;
+        private System.Windows.Forms.TextBox movieTitle;
+        private System.Windows.Forms.DateTimePicker movieDate;
     }
 }
 

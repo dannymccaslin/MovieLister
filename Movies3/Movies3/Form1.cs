@@ -8,6 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.IO;
+using System.Data.SqlClient;
 
 namespace Movies3
 {
@@ -32,9 +33,9 @@ namespace Movies3
             _names.Add("Date");
             _names.Add("Movie Title");
 
+           
 
-
-            for (int i = 0; i < this._names.Count; i++)
+          /*  for (int i = 0; i < this._names.Count; i++)
             {
                 string name = this._names[i];
                 dt.Columns.Add(name);
@@ -47,15 +48,18 @@ namespace Movies3
             dataGridView1.Columns["Movie Title"].Width = 200;
             dataGridView1.MultiSelect = false;
 
-            openFileDialog1.Filter = "xml files (*.xml)|*.xml";
+            openFileDialog1.Filter = "xml files (*.xml)|*.xml"; */
         }
 
 
         public void submitButton_Click(object sender, EventArgs e)
         {
+           // insertToTable(movieDate.Text, movieTitle.Text);
+            insertStoredProc(movieDate.Text, movieTitle.Text);
 
 
-            if (movieTitle.Text != null && movieTitle.Text != "")
+
+            /* if (movieTitle.Text != null && movieTitle.Text != "")
             {
                 DataRow dtRow;
                 dtRow = dt.NewRow();
@@ -66,10 +70,74 @@ namespace Movies3
             else
             {
                 MessageBox.Show("You need to type a movie title to save a movie to your list.");
-            }
+            }*/
             movieTitle.Text = null;
+            loadDataGridView();
+            
+        }
 
-            dataGridView1.DataSource = dt;
+        private static void insertStoredProc(string date, string title)
+        {
+            SqlConnection con = null;
+            SqlDataReader rdr = null;
+
+            try
+            {
+                con = new SqlConnection(
+                        Movies3.Properties.Settings.Default.MoviesConnectionString);
+                
+                    con.Open();
+
+                // 1. create a command object identifying
+                // the stored procedure
+                SqlCommand cmd = new SqlCommand(
+                    "dbo.AddRow", con);
+
+                // 2. set the command object so it knows
+                // to execute a stored procedure
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // 3. add parameter to command, which
+                // will be passed to the stored procedure
+                cmd.Parameters.Add(new SqlParameter("@Date", date));
+                cmd.Parameters.Add(new SqlParameter("@Title", title));
+
+                rdr = cmd.ExecuteReader();
+
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+
+            }
+
+        }
+
+
+        static void insertToTable(string date, string name)
+        {
+            using (SqlConnection con = new SqlConnection(
+                Movies3.Properties.Settings.Default.MoviesConnectionString))
+            {
+                con.Open();
+
+                using (SqlCommand command = new SqlCommand(
+                    "INSERT INTO MovieTable VALUES (@Date, @Title)", con))
+                {
+                    command.Parameters.Add(new SqlParameter("Date", date));
+                    command.Parameters.Add(new SqlParameter("Title", name));
+                    command.ExecuteNonQuery();
+                }
+
+            }
         }
 
         private void saveButton_Click(object sender, EventArgs e)
@@ -163,7 +231,27 @@ namespace Movies3
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            // TODO: This line of code loads data into the 'moviesDataSet.Movie_Table' table. You can move, or remove it, as needed.
+            this.MovieTableTableAdapter.Fill(this.moviesDataSet.MovieTable);
+            loadDataGridView();
 
+        }
+
+        private void loadDataGridView()
+        {
+            SqlConnection SqlCon = new SqlConnection(
+                                    Movies3.Properties.Settings.Default.MoviesConnectionString);
+
+            SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM MovieTable", SqlCon);
+            SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
+
+            dt.Locale = System.Globalization.CultureInfo.InvariantCulture;
+            dataAdapter.Fill(dt);
+            dbBindSource.DataSource = dt;
+
+            dataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
+            dataGridView1.ReadOnly = true;
+            dataGridView1.DataSource = dbBindSource;
         }
 
         private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
@@ -187,6 +275,19 @@ namespace Movies3
             }
 
 
+        }
+
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                if (dataGridView1.Rows[i].Selected == true)
+                {
+                    movieDate.Text = Convert.ToString(dt.Rows[i]["Date"]);
+                    movieTitle.Text = Convert.ToString(dt.Rows[i]["Movie Title"]);
+                }
+
+            }
         }
     }
 }

@@ -33,28 +33,28 @@ namespace Movies3
             _names.Add("Date");
             _names.Add("Movie Title");
 
-           
-
-          /*  for (int i = 0; i < this._names.Count; i++)
-            {
-                string name = this._names[i];
-                dt.Columns.Add(name);
 
 
-            }
-            ds.Tables.Add(dt);
-            //Render the DataGridView
-            dataGridView1.DataSource = dt;
-            dataGridView1.Columns["Movie Title"].Width = 200;
-            dataGridView1.MultiSelect = false;
+            /*  for (int i = 0; i < this._names.Count; i++)
+              {
+                  string name = this._names[i];
+                  dt.Columns.Add(name);
 
-            openFileDialog1.Filter = "xml files (*.xml)|*.xml"; */
+
+              }
+              ds.Tables.Add(dt);
+              //Render the DataGridView
+              dataGridView1.DataSource = dt;
+              dataGridView1.Columns["Movie Title"].Width = 200;
+              dataGridView1.MultiSelect = false;
+
+              openFileDialog1.Filter = "xml files (*.xml)|*.xml"; */
         }
 
 
         public void submitButton_Click(object sender, EventArgs e)
         {
-           // insertToTable(movieDate.Text, movieTitle.Text);
+            // insertToTable(movieDate.Text, movieTitle.Text);
             insertStoredProc(movieDate.Text, movieTitle.Text);
 
 
@@ -73,7 +73,7 @@ namespace Movies3
             }*/
             movieTitle.Text = null;
             loadDataGridView();
-            
+
         }
 
         private static void insertStoredProc(string date, string title)
@@ -85,8 +85,8 @@ namespace Movies3
             {
                 con = new SqlConnection(
                         Movies3.Properties.Settings.Default.MoviesConnectionString);
-                
-                    con.Open();
+
+                con.Open();
 
                 // 1. create a command object identifying
                 // the stored procedure
@@ -169,7 +169,7 @@ namespace Movies3
             for (int i = 0; i < dt.Rows.Count; i++)
             {
 
-                if (Convert.ToString(dt.Rows[i]["Movie Title"]) == movieSearch.Text)
+                if (Convert.ToString(dt.Rows[i]["Title"]) == movieSearch.Text)
                 {
 
                     dataGridView1.Rows[i].Selected = true;
@@ -231,8 +231,7 @@ namespace Movies3
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            // TODO: This line of code loads data into the 'moviesDataSet.Movie_Table' table. You can move, or remove it, as needed.
-            this.MovieTableTableAdapter.Fill(this.moviesDataSet.MovieTable);
+            
             loadDataGridView();
 
         }
@@ -245,35 +244,22 @@ namespace Movies3
             SqlDataAdapter dataAdapter = new SqlDataAdapter("SELECT * FROM MovieTable", SqlCon);
             SqlCommandBuilder commandBuilder = new SqlCommandBuilder(dataAdapter);
 
+
             dt.Locale = System.Globalization.CultureInfo.InvariantCulture;
+            dt.Clear();
             dataAdapter.Fill(dt);
             dbBindSource.DataSource = dt;
 
             dataGridView1.AutoResizeColumns(DataGridViewAutoSizeColumnsMode.AllCellsExceptHeader);
+            dataGridView1.MultiSelect = false;
             dataGridView1.ReadOnly = true;
             dataGridView1.DataSource = dbBindSource;
+
         }
 
         private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
         {
-            e.Cancel = true;
-            if (dt.Rows.Count != 0)
-            {
-                if (MessageBox.Show("Would you like to save before closing?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question) == DialogResult.Yes)
-                {
-                    saveFileDialog1.ShowDialog();
-                    e.Cancel = false;
-                }
-                else
-                {
-                    e.Cancel = false;
-                }
-            }
-            else
-            {
-                e.Cancel = false;
-            }
-
+            
 
         }
 
@@ -283,8 +269,13 @@ namespace Movies3
             {
                 if (dataGridView1.Rows[i].Selected == true)
                 {
-                    movieDate.Text = Convert.ToString(dt.Rows[i]["Date"]);
-                    movieTitle.Text = Convert.ToString(dt.Rows[i]["Movie Title"]);
+                    string date = Convert.ToString(dt.Rows[i]["Date"]);
+                    string title = Convert.ToString(dt.Rows[i]["Title"]);
+
+                    Form2 editForm = new Form2(date, title);
+                    editForm.ShowDialog(this);
+                    
+
                 }
 
             }

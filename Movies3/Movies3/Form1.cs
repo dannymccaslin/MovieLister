@@ -236,7 +236,7 @@ namespace Movies3
 
         }
 
-        private void loadDataGridView()
+        public void loadDataGridView()
         {
             SqlConnection SqlCon = new SqlConnection(
                                     Movies3.Properties.Settings.Default.MoviesConnectionString);

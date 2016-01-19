@@ -15,6 +15,7 @@ namespace Movies3
     {
         string olddate;
         string oldtitle;
+        
 
         public Form2(string date, string title)
         {
@@ -29,6 +30,7 @@ namespace Movies3
         private void editButton2_Click(object sender, EventArgs e)
         {
             EditTableStoredProc( olddate, oldtitle, editMovieDate.Text, editMovieTitle.Text);
+             
             this.Close();
 
         }
@@ -37,6 +39,8 @@ namespace Movies3
         {
             SqlConnection con = null;
             SqlDataReader rdr = null;
+            UpdateGridView update = new UpdateGridView();
+            Form1 form = new Form1();
 
             try
             {
@@ -48,7 +52,7 @@ namespace Movies3
                 // 1. create a command object identifying
                 // the stored procedure
                 SqlCommand cmd = new SqlCommand(
-                    "dbo.EditRow", con);
+                    "dbo.EditRow2", con);
 
                 // 2. set the command object so it knows
                 // to execute a stored procedure
@@ -77,6 +81,8 @@ namespace Movies3
                 }
 
             }
+
+            form.loadDataGridView(); 
         }
     }
 }

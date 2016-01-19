@@ -154,10 +154,59 @@ namespace Movies3
         public void deleteRow(int i)
         {
 
-            DataRow dr = dt.Rows[i];
-            dr.Delete();
+            string date = Convert.ToString(dt.Rows[i]["Date"]);
+            string title = Convert.ToString(dt.Rows[i]["Title"]);
+
+            DelRowStoredProc(date, title);
+            loadDataGridView();
+
 
         }
+
+        private static void DelRowStoredProc(string date, string title)
+        {
+            SqlConnection con = null;
+            SqlDataReader rdr = null;
+
+            try
+            {
+                con = new SqlConnection(
+                        Movies3.Properties.Settings.Default.MoviesConnectionString);
+
+                con.Open();
+
+                // 1. create a command object identifying
+                // the stored procedure
+                SqlCommand cmd = new SqlCommand(
+                    "dbo.DeleteRow", con);
+
+                // 2. set the command object so it knows
+                // to execute a stored procedure
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // 3. add parameter to command, which
+                // will be passed to the stored procedure
+                cmd.Parameters.Add(new SqlParameter("@Date", date));
+                cmd.Parameters.Add(new SqlParameter("@Title", title));
+
+                rdr = cmd.ExecuteReader();
+
+            }
+            finally
+            {
+                if (con != null)
+                {
+                    con.Close();
+                }
+
+                if (rdr != null)
+                {
+                    rdr.Close();
+                }
+
+            }
+        }
+
         private void searchButton_Click(object sender, EventArgs e)
         {
 
@@ -231,7 +280,7 @@ namespace Movies3
 
         private void Form1_Load(object sender, EventArgs e)
         {
-            
+
             loadDataGridView();
 
         }
@@ -259,7 +308,7 @@ namespace Movies3
 
         private void Form1_FormClosing(Object sender, FormClosingEventArgs e)
         {
-            
+
 
         }
 
@@ -274,7 +323,7 @@ namespace Movies3
 
                     Form2 editForm = new Form2(date, title);
                     editForm.ShowDialog(this);
-                    
+                    loadDataGridView();
 
                 }
 

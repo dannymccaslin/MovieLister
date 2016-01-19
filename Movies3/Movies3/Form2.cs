@@ -39,8 +39,7 @@ namespace Movies3
         {
             SqlConnection con = null;
             SqlDataReader rdr = null;
-            UpdateGridView update = new UpdateGridView();
-            Form1 form = new Form1();
+          //  Form1 form = new Form1();
 
             try
             {
@@ -82,7 +81,7 @@ namespace Movies3
 
             }
 
-            form.loadDataGridView(); 
+           // form.loadDataGridView(); 
         }
     }
 }

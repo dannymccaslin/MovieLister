@@ -21,6 +21,8 @@ namespace Movies3
         List<string> _titles = new List<string>();
         DataSet ds = new DataSet();
         DataTable dt = new DataTable();
+        StoredProcedures proc = new StoredProcedures();
+        
 
 
 
@@ -32,7 +34,8 @@ namespace Movies3
             //Add columns
             _names.Add("Date");
             _names.Add("Movie Title");
-
+            
+            
 
 
             /*  for (int i = 0; i < this._names.Count; i++)
@@ -55,7 +58,7 @@ namespace Movies3
         public void submitButton_Click(object sender, EventArgs e)
         {
             // insertToTable(movieDate.Text, movieTitle.Text);
-            insertStoredProc(movieDate.Text, movieTitle.Text);
+            proc.insertStoredProc(movieDate.Text, movieTitle.Text);
 
 
 
@@ -76,78 +79,16 @@ namespace Movies3
 
         }
 
-        private static void insertStoredProc(string date, string title)
-        {
-            SqlConnection con = null;
-            SqlDataReader rdr = null;
-
-            try
-            {
-                con = new SqlConnection(
-                        Movies3.Properties.Settings.Default.MoviesConnectionString);
-
-                con.Open();
-
-                // 1. create a command object identifying
-                // the stored procedure
-                SqlCommand cmd = new SqlCommand(
-                    "dbo.AddRow", con);
-
-                // 2. set the command object so it knows
-                // to execute a stored procedure
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                // 3. add parameter to command, which
-                // will be passed to the stored procedure
-                cmd.Parameters.Add(new SqlParameter("@Date", date));
-                cmd.Parameters.Add(new SqlParameter("@Title", title));
-
-                rdr = cmd.ExecuteReader();
-
-            }
-            finally
-            {
-                if (con != null)
-                {
-                    con.Close();
-                }
-
-                if (rdr != null)
-                {
-                    rdr.Close();
-                }
-
-            }
-
-        }
-
-
-        static void insertToTable(string date, string name)
-        {
-            using (SqlConnection con = new SqlConnection(
-                Movies3.Properties.Settings.Default.MoviesConnectionString))
-            {
-                con.Open();
-
-                using (SqlCommand command = new SqlCommand(
-                    "INSERT INTO MovieTable VALUES (@Date, @Title)", con))
-                {
-                    command.Parameters.Add(new SqlParameter("Date", date));
-                    command.Parameters.Add(new SqlParameter("Title", name));
-                    command.ExecuteNonQuery();
-                }
-
-            }
-        }
+    
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            saveFileDialog1.ShowDialog();
+            
         }
 
         private void loadButton_Click(object sender, EventArgs e)
         {
-            openFileDialog1.ShowDialog();
+            
 
         }
 
@@ -157,55 +98,13 @@ namespace Movies3
             string date = Convert.ToString(dt.Rows[i]["Date"]);
             string title = Convert.ToString(dt.Rows[i]["Title"]);
 
-            DelRowStoredProc(date, title);
+            proc.DelRowStoredProc(date, title);
             loadDataGridView();
 
 
         }
 
-        private static void DelRowStoredProc(string date, string title)
-        {
-            SqlConnection con = null;
-            SqlDataReader rdr = null;
-
-            try
-            {
-                con = new SqlConnection(
-                        Movies3.Properties.Settings.Default.MoviesConnectionString);
-
-                con.Open();
-
-                // 1. create a command object identifying
-                // the stored procedure
-                SqlCommand cmd = new SqlCommand(
-                    "dbo.DeleteRow", con);
-
-                // 2. set the command object so it knows
-                // to execute a stored procedure
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                // 3. add parameter to command, which
-                // will be passed to the stored procedure
-                cmd.Parameters.Add(new SqlParameter("@Date", date));
-                cmd.Parameters.Add(new SqlParameter("@Title", title));
-
-                rdr = cmd.ExecuteReader();
-
-            }
-            finally
-            {
-                if (con != null)
-                {
-                    con.Close();
-                }
-
-                if (rdr != null)
-                {
-                    rdr.Close();
-                }
-
-            }
-        }
+       
 
         private void searchButton_Click(object sender, EventArgs e)
         {
@@ -280,7 +179,7 @@ namespace Movies3
 
         private void Form1_Load(object sender, EventArgs e)
         {
-
+            proc.fillUserDT();
             loadDataGridView();
 
         }
@@ -328,6 +227,19 @@ namespace Movies3
                 }
 
             }
+        }
+
+        private void newUserCreator_Click(object sender, EventArgs e)
+        {
+            Form3 newUserForm = new Form3();
+            newUserForm.ShowDialog(this);
+            proc.fillUserDT();
+        }
+
+        private void usersDropBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            
+            proc.loadGridView(proc.getUserID(usersDropBox.Text));
         }
     }
 }

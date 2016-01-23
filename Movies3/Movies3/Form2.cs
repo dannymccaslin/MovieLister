@@ -15,7 +15,8 @@ namespace Movies3
     {
         string olddate;
         string oldtitle;
-        
+        StoredProcedures proc = new StoredProcedures();
+
 
         public Form2(string date, string title)
         {
@@ -29,59 +30,12 @@ namespace Movies3
 
         private void editButton2_Click(object sender, EventArgs e)
         {
-            EditTableStoredProc( olddate, oldtitle, editMovieDate.Text, editMovieTitle.Text);
-             
+
+            proc.EditTableStoredProc(olddate, oldtitle, editMovieDate.Text, editMovieTitle.Text);
+
             this.Close();
 
         }
-
-        private static void EditTableStoredProc(string olddate,string oldtitle,string newdate,string newtitle)
-        {
-            SqlConnection con = null;
-            SqlDataReader rdr = null;
-          //  Form1 form = new Form1();
-
-            try
-            {
-                con = new SqlConnection(
-                        Movies3.Properties.Settings.Default.MoviesConnectionString);
-
-                con.Open();
-
-                // 1. create a command object identifying
-                // the stored procedure
-                SqlCommand cmd = new SqlCommand(
-                    "dbo.EditRow2", con);
-
-                // 2. set the command object so it knows
-                // to execute a stored procedure
-                cmd.CommandType = CommandType.StoredProcedure;
-
-                // 3. add parameter to command, which
-                // will be passed to the stored procedure
-                cmd.Parameters.Add(new SqlParameter("@olddate", olddate));
-                cmd.Parameters.Add(new SqlParameter("@oldtitle", oldtitle));
-                cmd.Parameters.Add(new SqlParameter("@date", newdate));
-                cmd.Parameters.Add(new SqlParameter("@title", newtitle));
-
-                rdr = cmd.ExecuteReader();
-
-            }
-            finally
-            {
-                if (con != null)
-                {
-                    con.Close();
-                }
-
-                if (rdr != null)
-                {
-                    rdr.Close();
-                }
-
-            }
-
-           // form.loadDataGridView(); 
-        }
     }
 }
+

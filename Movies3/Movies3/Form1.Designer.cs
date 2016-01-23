@@ -45,6 +45,7 @@
             this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.newUserCreator = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -56,6 +57,8 @@
             this.dbBindSource = new System.Windows.Forms.BindingSource(this.components);
             this.movieTitle = new System.Windows.Forms.TextBox();
             this.movieDate = new System.Windows.Forms.DateTimePicker();
+            this.usersDropBox = new System.Windows.Forms.ComboBox();
+            this.userDropLabel = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.MovieTableBindingSource)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.moviesDataSet)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView1)).BeginInit();
@@ -65,7 +68,7 @@
             // 
             // submitButton
             // 
-            this.submitButton.Location = new System.Drawing.Point(181, 141);
+            this.submitButton.Location = new System.Drawing.Point(181, 247);
             this.submitButton.Name = "submitButton";
             this.submitButton.Size = new System.Drawing.Size(75, 23);
             this.submitButton.TabIndex = 0;
@@ -113,7 +116,7 @@
             // 
             // searchButton
             // 
-            this.searchButton.Location = new System.Drawing.Point(181, 302);
+            this.searchButton.Location = new System.Drawing.Point(181, 408);
             this.searchButton.Name = "searchButton";
             this.searchButton.Size = new System.Drawing.Size(75, 23);
             this.searchButton.TabIndex = 6;
@@ -124,7 +127,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(19, 259);
+            this.label1.Location = new System.Drawing.Point(19, 365);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(41, 13);
             this.label1.TabIndex = 7;
@@ -132,7 +135,7 @@
             // 
             // movieSearch
             // 
-            this.movieSearch.Location = new System.Drawing.Point(22, 276);
+            this.movieSearch.Location = new System.Drawing.Point(22, 382);
             this.movieSearch.Name = "movieSearch";
             this.movieSearch.Size = new System.Drawing.Size(200, 20);
             this.movieSearch.TabIndex = 8;
@@ -140,7 +143,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(22, 44);
+            this.label2.Location = new System.Drawing.Point(22, 150);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(62, 13);
             this.label2.TabIndex = 9;
@@ -149,7 +152,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(22, 99);
+            this.label3.Location = new System.Drawing.Point(22, 205);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(67, 13);
             this.label3.TabIndex = 10;
@@ -190,12 +193,20 @@
             // fileToolStripMenuItem
             // 
             this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.newUserCreator,
             this.saveToolStripMenuItem,
             this.openToolStripMenuItem,
             this.exitToolStripMenuItem});
             this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
             this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
             this.fileToolStripMenuItem.Text = "File";
+            // 
+            // newUserCreator
+            // 
+            this.newUserCreator.Name = "newUserCreator";
+            this.newUserCreator.Size = new System.Drawing.Size(152, 22);
+            this.newUserCreator.Text = "New";
+            this.newUserCreator.Click += new System.EventHandler(this.newUserCreator_Click);
             // 
             // saveToolStripMenuItem
             // 
@@ -256,7 +267,7 @@
             // 
             // movieTitle
             // 
-            this.movieTitle.Location = new System.Drawing.Point(22, 115);
+            this.movieTitle.Location = new System.Drawing.Point(22, 221);
             this.movieTitle.Name = "movieTitle";
             this.movieTitle.Size = new System.Drawing.Size(234, 20);
             this.movieTitle.TabIndex = 14;
@@ -264,16 +275,36 @@
             // movieDate
             // 
             this.movieDate.Format = System.Windows.Forms.DateTimePickerFormat.Short;
-            this.movieDate.Location = new System.Drawing.Point(25, 61);
+            this.movieDate.Location = new System.Drawing.Point(25, 167);
             this.movieDate.Name = "movieDate";
             this.movieDate.Size = new System.Drawing.Size(231, 20);
             this.movieDate.TabIndex = 15;
+            // 
+            // usersDropBox
+            // 
+            this.usersDropBox.FormattingEnabled = true;
+            this.usersDropBox.Location = new System.Drawing.Point(25, 60);
+            this.usersDropBox.Name = "usersDropBox";
+            this.usersDropBox.Size = new System.Drawing.Size(231, 21);
+            this.usersDropBox.TabIndex = 16;
+            this.usersDropBox.SelectedIndexChanged += new System.EventHandler(this.usersDropBox_SelectedIndexChanged);
+            // 
+            // userDropLabel
+            // 
+            this.userDropLabel.AutoSize = true;
+            this.userDropLabel.Location = new System.Drawing.Point(25, 41);
+            this.userDropLabel.Name = "userDropLabel";
+            this.userDropLabel.Size = new System.Drawing.Size(75, 13);
+            this.userDropLabel.TabIndex = 17;
+            this.userDropLabel.Text = "Select A User:";
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(728, 509);
+            this.Controls.Add(this.userDropLabel);
+            this.Controls.Add(this.usersDropBox);
             this.Controls.Add(this.movieDate);
             this.Controls.Add(this.movieTitle);
             this.Controls.Add(this.editButton);
@@ -332,6 +363,9 @@
         private System.Windows.Forms.BindingSource dbBindSource;
         private System.Windows.Forms.TextBox movieTitle;
         private System.Windows.Forms.DateTimePicker movieDate;
+        private System.Windows.Forms.ToolStripMenuItem newUserCreator;
+        private System.Windows.Forms.ComboBox usersDropBox;
+        private System.Windows.Forms.Label userDropLabel;
     }
 }
 
